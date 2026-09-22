@@ -1582,31 +1582,31 @@
                 name: "Jihan Sina Nihan",
                 role: "UI Designer",
                 description: "Mengatur tampilan visual agar website terlihat modern, menarik, dan nyaman untuk pengguna.",
-                photo: ""
+                photo: "Jihan.jpeg"
             },
             {
                 name: "Rico Akbar Farisi",
                 role: "Frontend",
                 description: "Membangun struktur tampilan dan interaksi website agar lebih rapi, responsif, dan mudah digunakan.",
-                photo: ""
+                photo: "Rico.jpeg"
             },
             {
                 name: "Dinda Khoirunisa",
                 role: "Content Writer",
                 description: "Menulis materi edukasi dan konten website agar lebih mudah dipahami oleh pengguna baru.",
-                photo: ""
+                photo: "Dinda.jpeg"
             },
             {
                 name: "Naurah Chalissa Putri",
                 role: "Logic & Quiz",
                 description: "Menyusun soal latihan dan logika quiz agar proses belajar menjadi lebih interaktif dan bermanfaat.",
-                photo: ""
+                photo: "Naurah.jpeg"
             },
             {
                 name: "Albarr Muhammad",
                 role: "Project Lead",
                 description: "Mengawasi dan mengoordinasikan seluruh proses agar website selesai dengan konsep yang terarah.",
-                photo: ""
+                photo: "Albarr.jpeg"
             }
         ];
         const demoAccount = {
@@ -1641,10 +1641,22 @@
         }
 
         function getCreators() {
+            const photoByName = {
+                "Jihan Sina Nihan": "Jihan.jpeg",
+                "Rico Akbar Farisi": "Rico.jpeg",
+                "Dinda Khoirunisa": "Dinda.jpeg",
+                "Naurah Chalissa Putri": "Naurah.jpeg",
+                "Albarr Muhammad": "Albarr.jpeg"
+            };
             try {
                 const saved = JSON.parse(localStorage.getItem(creatorsKey));
                 if (Array.isArray(saved) && saved.length) {
-                    return saved;
+                    return saved.map(function(person) {
+                        return {
+                            ...person,
+                            photo: person.photo || photoByName[person.name] || ""
+                        };
+                    });
                 }
             } catch (error) {
                 return defaultCreators.slice();
