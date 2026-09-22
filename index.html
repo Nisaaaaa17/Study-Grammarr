@@ -1,0 +1,2323 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Study Grammar</title>
+    <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet">
+    <style>
+        /* ================================
+           RESET
+        ================================= */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        html {
+            scroll-behavior: smooth;
+        }
+        :root {
+            --bg-soft: #f6fbf2;
+            --card-white: rgba(255, 255, 255, 0.9);
+            --green-1: #58cc02;
+            --green-2: #46a302;
+            --green-3: #eaf8df;
+            --text: #2d3a2d;
+            --muted: #69746d;
+            --shadow-soft: 0 20px 40px rgba(67, 119, 52, 0.12);
+        }
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background:
+                radial-gradient(circle at top left, rgba(123, 219, 76, 0.18), transparent 28%),
+                radial-gradient(circle at bottom right, rgba(28, 176, 246, 0.12), transparent 25%),
+                var(--bg-soft);
+            color: var(--text);
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+        }
+        body::before,
+        body::after {
+            content: "";
+            position: fixed;
+            width: 420px;
+            height: 420px;
+            border-radius: 50%;
+            filter: blur(65px);
+            opacity: 0.28;
+            z-index: -1;
+            animation: drift 18s ease-in-out infinite alternate;
+        }
+        body::before {
+            background: rgba(88, 204, 2, 0.22);
+            top: -100px;
+            left: -80px;
+        }
+        body::after {
+            background: rgba(28, 176, 246, 0.2);
+            right: -100px;
+            bottom: -80px;
+            animation-delay: 1.5s;
+        }
+        @keyframes drift {
+            0% {
+                transform: translate(0, 0) scale(1);
+            }
+            100% {
+                transform: translate(30px, 30px) scale(1.18);
+            }
+        }
+        @keyframes floatHero {
+            0%,
+            100% {
+                transform: translateY(0) rotate(2deg);
+            }
+            50% {
+                transform: translateY(-10px) rotate(-1deg);
+            }
+        }
+        @keyframes floatBook {
+            0%,
+            100% {
+                transform: rotate(-5deg) translateY(0);
+            }
+            50% {
+                transform: rotate(-2deg) translateY(-8px);
+            }
+        }
+        @keyframes bubbleFloat {
+            0%,
+            100% {
+                transform: translateY(0) rotate(var(--rotate));
+            }
+            50% {
+                transform: translateY(-8px) rotate(calc(var(--rotate) + 4deg));
+            }
+        }
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        @keyframes pulseGlow {
+            0%,
+            100% {
+                box-shadow: 0 0 0 rgba(88, 204, 2, 0);
+            }
+            50% {
+                box-shadow: 0 0 0 12px rgba(88, 204, 2, 0.06);
+            }
+        }
+        button {
+            font-family: inherit;
+            cursor: pointer;
+        }
+        .reveal {
+            opacity: 0;
+            transform: translateY(28px) scale(0.98);
+            transition: opacity 0.7s ease, transform 0.7s cubic-bezier(0.2, 0.8, 0.2, 1);
+        }
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+        /* ================================
+           HEADER
+        ================================= */
+        header {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(14px);
+            border-bottom: 1px solid rgba(82, 130, 75, 0.08);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 8px 30px rgba(32, 52, 28, 0.05);
+        }
+        .navbar {
+            max-width: 1100px;
+            margin: auto;
+            min-height: 70px;
+            padding: 0 25px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .logo {
+            font-size: 22px;
+            font-weight: 800;
+            color: #58cc02;
+            cursor: pointer;
+            letter-spacing: 0.02em;
+            text-shadow: 0 10px 15px rgba(88, 204, 2, 0.12);
+        }
+        .nav-menu {
+            display: flex;
+            gap: 10px;
+        }
+        .nav-button {
+            border: none;
+            background: transparent;
+            padding: 10px 16px;
+            border-radius: 12px;
+            color: #555;
+            font-size: 15px;
+            font-weight: 600;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.25s ease;
+        }
+        .nav-button::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(88, 204, 2, 0.14), rgba(28, 176, 246, 0.09));
+            transform: translateX(-110%);
+            transition: transform 0.35s ease;
+        }
+        .nav-button:hover::before,
+        .nav-button.active::before {
+            transform: translateX(0);
+        }
+        .nav-button > * {
+            position: relative;
+            z-index: 1;
+        }
+        .nav-button:hover {
+            background-color: rgba(234, 248, 223, 0.9);
+            color: #46a302;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 18px rgba(88, 204, 2, 0.08);
+        }
+        .nav-button.active {
+            background-color: rgba(234, 248, 223, 0.9);
+            color: #46a302;
+            box-shadow: inset 0 0 0 1px rgba(88, 204, 2, 0.2);
+        }
+        .account-status {
+            display: none;
+            align-items: center;
+            gap: 8px;
+            color: #46a302;
+            font-size: 14px;
+            font-weight: bold;
+        }
+        .account-status.show { display: flex; }
+        .logout-button {
+            border: 1px solid #ff8a8a;
+            background: white;
+            color: #d60000;
+            padding: 6px 10px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        /* ================================
+           MAIN
+        ================================= */
+        main {
+            max-width: 1100px;
+            margin: auto;
+            padding: 30px 25px 70px;
+        }
+        .section {
+            display: none;
+        }
+        .section.active {
+            display: block;
+        }
+        /* ================================
+           HOME
+        ================================= */
+        .hero {
+            min-height: 500px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 50px;
+            padding: 45px 20px;
+        }
+        .hero-text {
+            max-width: 570px;
+        }
+        .badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #eaf8df, #dff7db);
+            color: #46a302;
+            padding: 8px 14px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: bold;
+            margin-bottom: 18px;
+            box-shadow: 0 10px 18px rgba(88, 204, 2, 0.08);
+        }
+        .hero h1 {
+            font-size: 48px;
+            line-height: 1.1;
+            margin-bottom: 20px;
+            letter-spacing: -0.04em;
+        }
+        .hero h1 span {
+            color: #58cc02;
+        }
+        .hero p {
+            color: #666;
+            font-size: 18px;
+            line-height: 1.7;
+            margin-bottom: 28px;
+        }
+        .primary-button {
+            border: none;
+            background: linear-gradient(135deg, #63d917, #58cc02);
+            color: white;
+            padding: 15px 25px;
+            border-radius: 14px;
+            font-size: 16px;
+            font-weight: bold;
+            box-shadow: 0 8px 18px rgba(88, 204, 2, 0.24);
+            transition: transform 0.18s ease, box-shadow 0.18s ease, filter 0.18s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        .primary-button::before{
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(120deg, transparent 20%, rgba(255,255,255,0.4), transparent 80%);
+            transform: translateX(-120%);
+            transition: transform 0.6s ease;
+        }
+        .primary-button:hover::before {
+            transform: translateX(120%);
+        }
+        .primary-button:hover {
+            background: linear-gradient(135deg, #69de19, #60cf08);
+            transform: translateY(-2px) scale(1.01);
+            box-shadow: 0 12px 20px rgba(88, 204, 2, 0.28);
+        }
+        .primary-button:active {
+            transform: translateY(3px);
+            box-shadow: 0 4px 8px rgba(70, 163, 2, 0.25);
+        }
+        .secondary-button {
+            border: 2px solid #58cc02;
+            background: rgba(255, 255, 255, 0.7);
+            color: #46a302;
+            padding: 13px 23px;
+            border-radius: 14px;
+            font-size: 16px;
+            font-weight: bold;
+            margin-left: 10px;
+            transition: transform 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
+        }
+        .secondary-button:hover {
+            background-color: #eaf8df;
+            transform: translateY(-2px);
+            box-shadow: 0 12px 18px rgba(88, 204, 2, 0.08);
+        }
+        /* ================================
+           HERO ILLUSTRATION
+        ================================= */
+        .hero-illustration {
+            width: 350px;
+            height: 350px;
+            background: linear-gradient(135deg, rgba(234, 248, 223, 0.95), rgba(255,255,255,0.9));
+            border-radius: 45% 55% 55% 45%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            transform: rotate(2deg);
+            animation: floatHero 6s ease-in-out infinite;
+            box-shadow: 0 25px 50px rgba(88, 204, 2, 0.12);
+        }
+        .book {
+            width: 190px;
+            height: 145px;
+            background: linear-gradient(145deg, #ffffff, #f5fff1);
+            border: 6px solid #58cc02;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transform: rotate(-5deg);
+            box-shadow: 0 10px 0 #46a302, 0 18px 30px rgba(70, 163, 2, 0.18);
+            animation: floatBook 5s ease-in-out infinite;
+        }
+        .book-text {
+            color: #58cc02;
+            font-size: 32px;
+            font-weight: 900;
+        }
+        .bubble {
+            position: absolute;
+            background-color: #ffc800;
+            color: #303030;
+            padding: 12px 18px;
+            border-radius: 20px;
+            font-weight: bold;
+            box-shadow: 0 10px 18px rgba(255, 200, 0, 0.12);
+            animation: bubbleFloat 4s ease-in-out infinite;
+        }
+        .bubble-one {
+            top: 45px;
+            right: 10px;
+            --rotate: 8deg;
+        }
+        .bubble-two {
+            bottom: 40px;
+            left: 10px;
+            background-color: #1cb0f6;
+            color: white;
+            box-shadow: 0 10px 18px rgba(28, 176, 246, 0.18);
+            --rotate: -7deg;
+        }
+        /* ================================
+           HOME CARDS
+        ================================= */
+        .home-content {
+            margin-top: 20px;
+        }
+        .section-title {
+            text-align: center;
+            margin-bottom: 10px;
+            font-size: 30px;
+        }
+        .section-description {
+            text-align: center;
+            color: #777;
+            margin-bottom: 30px;
+        }
+        .lesson-preview {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+        .lesson-card {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 20px;
+            padding: 25px;
+            border: 2px solid #eeeeee;
+            transition: 0.25s ease;
+            box-shadow: 0 10px 25px rgba(79, 105, 86, 0.05);
+        }
+        .lesson-card:hover {
+            transform: translateY(-8px) scale(1.01);
+            border-color: #58cc02;
+            box-shadow: 0 22px 28px rgba(88, 204, 2, 0.12);
+            animation: pulseGlow 1.3s ease;
+        }
+        .lesson-number {
+            color: #58cc02;
+            font-size: 14px;
+            font-weight: bold;
+        }
+        .lesson-card h3 {
+            margin: 10px 0;
+            font-size: 21px;
+        }
+        .lesson-card p {
+            color: #777;
+            line-height: 1.5;
+            margin-bottom: 18px;
+        }
+        .small-button {
+            border: none;
+            background-color: #58cc02;
+            color: white;
+            padding: 10px 17px;
+            border-radius: 10px;
+            font-weight: bold;
+        }
+        /* ================================
+           MATERIAL
+        ================================= */
+        .material-container {
+            max-width: 800px;
+            margin: 30px auto;
+        }
+        .material-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .material-header h2 {
+            font-size: 38px;
+            margin-bottom: 10px;
+        }
+        .material-header p {
+            color: #777;
+        }
+        .material-card {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 30px;
+            border-radius: 22px;
+            margin-bottom: 20px;
+            border: 2px solid #eeeeee;
+            box-shadow: 0 12px 25px rgba(68, 98, 73, 0.04);
+        }
+        .material-card h3 {
+            margin-bottom: 15px;
+            color: #46a302;
+        }
+        .material-card p {
+            line-height: 1.7;
+            color: #555;
+        }
+        .grammar-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+        .grammar-table th,
+        .grammar-table td {
+            padding: 14px;
+            text-align: center;
+            border-bottom: 1px solid #eeeeee;
+        }
+        .grammar-table th {
+            background-color: #eaf8df;
+            color: #46a302;
+        }
+        .example-list {
+            list-style: none;
+            margin-top: 10px;
+        }
+        .example-list li {
+            background-color: #f7f9fc;
+            padding: 12px 15px;
+            border-radius: 10px;
+            margin-bottom: 8px;
+        }
+        .remember-box {
+            background-color: #fff5c7;
+            border: 2px solid #ffc800;
+            border-radius: 18px;
+            padding: 20px;
+        }
+        .remember-box h3 {
+            color: #9a7500;
+        }
+        .remember-box p {
+            line-height: 1.8;
+        }
+        .material-action {
+            text-align: center;
+            margin-top: 25px;
+        }
+        /* ================================
+           ACCOUNT
+        ================================= */
+        .account-container { max-width: 620px; margin: 35px auto; }
+        .account-card {
+            background: rgba(255, 255, 255, 0.92);
+            padding: 32px;
+            border-radius: 22px;
+            border: 2px solid #eeeeee;
+            box-shadow: 0 18px 30px rgba(32, 52, 28, 0.05);
+        }
+        .account-header { text-align: center; margin-bottom: 25px; }
+        .account-header h2 { font-size: 32px; margin: 10px 0; }
+        .account-header p, .account-note { color: #777; line-height: 1.6; }
+        .auth-tabs { display: flex; gap: 8px; margin-bottom: 20px; }
+        .auth-tab {
+            flex: 1;
+            border: 2px solid #e5e5e5;
+            background: white;
+            color: #777;
+            padding: 11px;
+            border-radius: 10px;
+            font-weight: bold;
+        }
+        .auth-tab.active { border-color: #58cc02; background-color: #eaf8df; color: #46a302; }
+        .auth-form { display: none; }
+        .auth-form.active { display: block; }
+        .form-field { display: block; margin-bottom: 15px; color: #555; font-size: 14px; font-weight: bold; }
+        .form-field input {
+            width: 100%;
+            margin-top: 7px;
+            padding: 13px;
+            border: 2px solid #e5e5e5;
+            border-radius: 10px;
+            font: inherit;
+        }
+        .form-field input:focus { outline: none; border-color: #58cc02; }
+        .auth-message { min-height: 22px; margin: 12px 0; font-size: 14px; font-weight: bold; }
+        .auth-message.error { color: #d60000; }
+        .auth-message.success { color: #3c8500; }
+        .account-tools { border-top: 1px solid #eeeeee; margin-top: 25px; padding-top: 22px; }
+        .account-tools h3 { margin-bottom: 8px; }
+        .tool-buttons { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 15px; }
+        .tool-button {
+            border: 2px solid #58cc02;
+            background: white;
+            color: #46a302;
+            padding: 10px 14px;
+            border-radius: 10px;
+            font-weight: bold;
+        }
+        /* ================================
+           QUESTION MANAGER
+        ================================= */
+        .question-manager { max-width: 900px; margin: 35px auto; }
+        .manager-header { text-align: center; margin-bottom: 25px; }
+        .manager-header h2 { font-size: 34px; margin: 10px 0; }
+        .manager-header p { color: #69746d; }
+        .question-manager-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        .manager-card {
+            background: rgba(255, 255, 255, 0.92);
+            padding: 25px;
+            border: 2px solid #eeeeee;
+            border-radius: 20px;
+            box-shadow: 0 12px 25px rgba(68, 98, 73, 0.04);
+        }
+        .manager-card h3 { color: #46a302; margin-bottom: 8px; }
+        .manager-card > p { color: #69746d; margin-bottom: 18px; line-height: 1.5; }
+        .creator-section {
+            max-width: 1100px;
+            margin: 35px auto;
+        }
+        .creator-grid {
+            display: grid;
+            grid-template-columns: repeat(5, minmax(0, 1fr));
+            gap: 20px;
+            margin-top: 25px;
+        }
+        .creator-card {
+            background: rgba(255, 255, 255, 0.92);
+            border: 2px solid #eeeeee;
+            border-radius: 22px;
+            padding: 24px 18px;
+            text-align: center;
+            box-shadow: 0 12px 25px rgba(68, 98, 73, 0.04);
+            transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+        }
+        .creator-card:hover {
+            transform: translateY(-8px);
+            border-color: #58cc02;
+            box-shadow: 0 22px 28px rgba(88, 204, 2, 0.12);
+        }
+        .creator-avatar {
+            width: 74px;
+            height: 74px;
+            margin: 0 auto 16px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #58cc02, #1cb0f6);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            font-weight: 800;
+            box-shadow: 0 12px 20px rgba(88, 204, 2, 0.18);
+        }
+        .creator-card h3 {
+            margin: 0 0 6px;
+            font-size: 20px;
+        }
+        .creator-role {
+            color: #46a302;
+            font-size: 13px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            margin-bottom: 12px;
+        }
+        .creator-card p {
+            color: #69746d;
+            line-height: 1.6;
+            font-size: 14px;
+        }
+        .creator-card-actions {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 16px;
+            flex-wrap: wrap;
+        }
+        .creator-action-btn {
+            border: 1px solid #58cc02;
+            background: white;
+            color: #46a302;
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .creator-action-btn.delete {
+            border-color: #ff8a8a;
+            color: #d60000;
+        }
+        .creator-form {
+            background: rgba(255, 255, 255, 0.92);
+            border: 2px solid #eeeeee;
+            border-radius: 20px;
+            padding: 24px;
+            margin-bottom: 25px;
+            box-shadow: 0 12px 25px rgba(68, 98, 73, 0.04);
+        }
+        .creator-form h3 {
+            margin-bottom: 15px;
+            color: #46a302;
+        }
+        .creator-fields {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 16px;
+        }
+        .creator-field {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            color: #555;
+            font-size: 14px;
+            font-weight: bold;
+        }
+        .creator-field input,
+        .creator-field textarea {
+            width: 100%;
+            padding: 12px 13px;
+            border: 2px solid #e5e5e5;
+            border-radius: 10px;
+            font: inherit;
+        }
+        .creator-field input:focus,
+        .creator-field textarea:focus {
+            outline: none;
+            border-color: #58cc02;
+        }
+        .creator-field textarea {
+            min-height: 92px;
+            resize: vertical;
+        }
+        .creator-field.full-width {
+            grid-column: 1 / -1;
+        }
+        .creator-actions {
+            margin-top: 18px;
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .question-form textarea {
+            width: 100%;
+            min-height: 92px;
+            resize: vertical;
+            padding: 13px;
+            border: 2px solid #e5e5e5;
+            border-radius: 10px;
+            font: inherit;
+            margin-top: 7px;
+        }
+        .question-form textarea:focus { outline: none; border-color: #58cc02; }
+        .question-form .primary-button { margin-top: 5px; }
+        .question-list { display: grid; gap: 12px; max-height: 470px; overflow-y: auto; }
+        .question-history-item {
+            padding: 14px;
+            border: 1px solid #e4eee0;
+            border-radius: 12px;
+            background: #fbfef9;
+        }
+        .question-history-item strong { display: block; margin-bottom: 5px; }
+        .question-history-item small { color: #69746d; display: block; line-height: 1.5; }
+        .delete-question {
+            border: 1px solid #ff8a8a;
+            color: #d60000;
+            background: white;
+            border-radius: 8px;
+            padding: 6px 9px;
+            margin-top: 9px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        .empty-history { color: #888; padding: 12px 0; }
+        /* ================================
+           QUIZ
+        ================================= */
+        .quiz-container {
+            max-width: 700px;
+            margin: 30px auto;
+        }
+        .quiz-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+        .quiz-title {
+            font-size: 25px;
+            font-weight: bold;
+        }
+        .question-number {
+            color: #777;
+            font-size: 14px;
+        }
+        .progress-container {
+            width: 100%;
+            height: 12px;
+            background-color: #e5e5e5;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 30px;
+        }
+        .progress-bar {
+            height: 100%;
+            width: 0%;
+            background-color: #58cc02;
+            border-radius: 10px;
+            transition: width 0.3s;
+        }
+        .question-card {
+            background: rgba(255, 255, 255, 0.93);
+            border-radius: 24px;
+            padding: 35px;
+            border: 2px solid #eeeeee;
+            box-shadow: 0 18px 30px rgba(48, 76, 44, 0.06);
+        }
+        .question-card h2 {
+            font-size: 29px;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .answer-options {
+            display: grid;
+            gap: 12px;
+        }
+        .answer-button {
+            width: 100%;
+            padding: 16px;
+            background-color: white;
+            border: 2px solid #dddddd;
+            border-radius: 14px;
+            text-align: left;
+            font-size: 17px;
+            font-weight: 600;
+            transition: 0.2s;
+        }
+        .answer-button:hover {
+            border-color: #58cc02;
+            background-color: #f1fbe9;
+        }
+        .answer-button.correct {
+            background-color: #e3f8d6;
+            border-color: #58cc02;
+            color: #3c8500;
+        }
+        .answer-button.wrong {
+            background-color: #ffe5e5;
+            border-color: #ff4b4b;
+            color: #d60000;
+        }
+        .feedback {
+            margin-top: 20px;
+            padding: 16px;
+            border-radius: 14px;
+            display: none;
+        }
+        .feedback.show {
+            display: block;
+        }
+        .feedback.correct-feedback {
+            background-color: #e3f8d6;
+            color: #3c8500;
+        }
+        .feedback.wrong-feedback {
+            background-color: #ffe5e5;
+            color: #d60000;
+        }
+        .feedback h3 {
+            margin-bottom: 5px;
+        }
+        .next-container {
+            text-align: right;
+            margin-top: 20px;
+        }
+        .next-button {
+            display: none;
+        }
+        .next-button.show {
+            display: inline-block;
+        }
+        /* ================================
+           RESULT
+        ================================= */
+        .result-container {
+            max-width: 600px;
+            margin: 70px auto;
+            text-align: center;
+            background: rgba(255, 255, 255, 0.94);
+            padding: 45px 30px;
+            border-radius: 25px;
+            border: 2px solid #eeeeee;
+            box-shadow: 0 22px 38px rgba(32, 52, 28, 0.08);
+        }
+        .result-icon {
+            font-size: 55px;
+            margin-bottom: 15px;
+        }
+        .result-container h2 {
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+        .result-container p {
+            color: #777;
+            margin-bottom: 25px;
+        }
+        .score-box {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        .score-item {
+            min-width: 130px;
+            padding: 18px;
+            border-radius: 16px;
+        }
+        .score-correct {
+            background-color: #e3f8d6;
+            color: #3c8500;
+        }
+        .score-wrong {
+            background-color: #ffe5e5;
+            color: #d60000;
+        }
+        .score-item span {
+            display: block;
+            font-size: 28px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        /* ================================
+           FOOTER
+        ================================= */
+        footer {
+            text-align: center;
+            padding: 25px;
+            color: #888;
+            font-size: 14px;
+        }
+        /* ================================
+           MOBILE
+        ================================= */
+        @media (max-width: 800px) {
+            .navbar {
+                flex-direction: column;
+                gap: 10px;
+                padding: 15px;
+            }
+            .nav-menu {
+                width: 100%;
+                justify-content: center;
+            }
+            .hero {
+                flex-direction: column;
+                text-align: center;
+                padding-top: 30px;
+            }
+            .hero h1 {
+                font-size: 38px;
+            }
+            .hero-illustration {
+                width: 280px;
+                height: 280px;
+            }
+            .lesson-preview {
+                grid-template-columns: 1fr;
+            }
+            .account-status { margin-bottom: 5px; }
+        }
+        @media (max-width: 500px) {
+            main {
+                padding: 20px 15px 50px;
+            }
+            .nav-menu {
+                gap: 2px;
+            }
+            .nav-button {
+                padding: 8px 10px;
+                font-size: 13px;
+            }
+            .hero h1 {
+                font-size: 32px;
+            }
+            .hero p {
+                font-size: 16px;
+            }
+            .secondary-button {
+                margin-left: 0;
+                margin-top: 12px;
+            }
+            .hero-illustration {
+                width: 240px;
+                height: 240px;
+            }
+            .book {
+                width: 150px;
+                height: 115px;
+            }
+            .book-text {
+                font-size: 25px;
+            }
+            .material-card {
+                padding: 20px;
+            }
+            .question-card {
+                padding: 22px;
+            }
+            .question-card h2 {
+                font-size: 24px;
+            }
+            .score-box {
+                flex-direction: column;
+                align-items: center;
+            }
+            .account-card { padding: 22px; }
+        }
+    </style>
+</head>
+<body>
+    <!-- ================================
+         HEADER
+    ================================= -->
+    <header>
+        <nav class="navbar">
+            <div class="logo" onclick="showSection('home')">
+                Study Grammar
+            </div>
+            <div class="nav-menu">
+                <button
+                    class="nav-button active"
+                    id="nav-home"
+                    data-aos="fade-down"
+                    data-aos-duration="600"
+                    onclick="showSection('home')">
+                    Home
+                </button>
+                <button
+                    class="nav-button"
+                    id="nav-material"
+                    data-aos="fade-down"
+                    data-aos-duration="700"
+                    data-aos-delay="100"
+                    onclick="showSection('material')">
+                    Materials
+                </button>
+                <button
+                    class="nav-button"
+                    id="nav-quiz"
+                    data-aos="fade-down"
+                    data-aos-duration="700"
+                    data-aos-delay="180"
+                    onclick="startQuiz()">
+                    Quiz
+                </button>
+                <button
+                    class="nav-button"
+                    id="nav-manager"
+                    data-aos="fade-down"
+                    data-aos-duration="700"
+                    data-aos-delay="260"
+                    onclick="showSection('manager')">
+                    Manage Questions
+                </button>
+                <button
+                    class="nav-button"
+                    id="nav-creators"
+                    data-aos="fade-down"
+                    data-aos-duration="700"
+                    data-aos-delay="320"
+                    onclick="showSection('creators')">
+                    Creator Profile
+                </button>
+            </div>
+            <div class="account-status" id="account-status">
+                <span id="logged-user"></span>
+                <button class="logout-button" onclick="logout()">Logout</button>
+            </div>
+        </nav>
+    </header>
+    <!-- ================================
+         MAIN
+    ================================= -->
+    <main>
+        <!-- ============================
+             HOME SECTION
+        ============================= -->
+        <section id="home" class="section active">
+            <div class="hero" data-aos="fade-up" data-aos-duration="900">
+                <div class="hero-text" data-aos="fade-right" data-aos-duration="900" data-aos-delay="100">
+                    <div class="badge" data-aos="zoom-in" data-aos-duration="700" data-aos-delay="150">
+                        BEGINNER • BASIC GRAMMAR
+                    </div>
+                    <h1>
+                        Study Grammar
+                        <span>with Demo Belajar</span>
+                    </h1>
+                    <p>
+                        Learn basic English Grammar with
+                        short lessons and simple exercises.
+                    </p>
+                    <button
+                        class="primary-button"
+                        data-aos="zoom-in"
+                        data-aos-duration="700"
+                        data-aos-delay="200"
+                        onclick="showSection('material')">
+                        Start Learning
+                    </button>
+                    <button
+                        class="secondary-button"
+                        data-aos="zoom-in"
+                        data-aos-duration="700"
+                        data-aos-delay="260"
+                        onclick="showSection('material')">
+                        View Materials
+                    </button>
+                </div>
+                <!-- Simple CSS illustration -->
+                <div class="hero-illustration" data-aos="zoom-in-left" data-aos-duration="1000" data-aos-delay="150">
+                    <div class="book">
+                        <div class="book-text">
+                            A B C
+                        </div>
+                    </div>
+                    <div class="bubble bubble-one">
+                        am?
+                    </div>
+                    <div class="bubble bubble-two">
+                        is / are
+                    </div>
+                </div>
+            </div>
+            <div class="home-content">
+                <h2 class="section-title" data-aos="fade-up" data-aos-duration="700">
+                    Start from the Basics
+                </h2>
+                <p class="section-description" data-aos="fade-up" data-aos-duration="700" data-aos-delay="80">
+                    Learn basic grammar step by step.
+                </p>
+                <div class="lesson-preview">
+                    <div class="lesson-card" data-aos="zoom-in" data-aos-duration="700" data-aos-delay="80">
+                        <div class="lesson-number">
+                            LESSON 01
+                        </div>
+                        <h3>
+                            To Be
+                        </h3>
+                        <p>
+                            Learn the usage of
+                            am, is, and are.
+                        </p>
+                        <button
+                            class="small-button"
+                            onclick="showSection('material')">
+                            Learn
+                        </button>
+                    </div>
+                    <div class="lesson-card" data-aos="zoom-in" data-aos-duration="700" data-aos-delay="150">
+                        <div class="lesson-number">
+                            LESSON 02
+                        </div>
+                        <h3>
+                            Basic Grammar
+                        </h3>
+                        <p>
+                            Understand the basics of
+                            English Grammar.
+                        </p>
+                        <button
+                            class="small-button"
+                            onclick="showSection('material')">
+                            Learn
+                        </button>
+                    </div>
+                    <div class="lesson-card" data-aos="zoom-in" data-aos-duration="700" data-aos-delay="220">
+                        <div class="lesson-number">
+                            LESSON 03
+                        </div>
+                        <h3>
+                            Practice
+                        </h3>
+                        <p>
+                            Test your understanding through
+                            short exercises.
+                        </p>
+                        <button
+                            class="small-button"
+                            onclick="startQuiz()">
+                            Quiz
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- ============================
+             ACCOUNT SECTION
+        ============================= -->
+        <section id="account" class="section">
+            <div class="account-container">
+                <div class="account-card" data-aos="zoom-in" data-aos-duration="800">
+                    <div class="account-header">
+                        <div class="badge">ACCOUNT</div>
+                        <h2 id="account-title">Login to your account</h2>
+                        <p id="account-subtitle">Save your learning progress on this device.</p>
+                    </div>
+                    <div class="auth-tabs">
+                        <button class="auth-tab active" id="login-tab" onclick="switchAuth('login')">Login</button>
+                        <button class="auth-tab" id="register-tab" onclick="switchAuth('register')">Register</button>
+                    </div>
+                    <form id="login-form" class="auth-form active" onsubmit="login(event)" data-aos="fade-up" data-aos-duration="700" data-aos-delay="220">
+                        <label class="form-field">Email
+                            <input id="login-email" type="email" autocomplete="username" required placeholder="nama@email.com">
+                        </label>
+                        <label class="form-field">Password
+                            <input id="login-password" type="password" autocomplete="current-password" required minlength="6" placeholder="Minimal 6 karakter">
+                        </label>
+                        <button class="primary-button" type="submit">Login</button>
+                    </form>
+                    <form id="register-form" class="auth-form" onsubmit="register(event)" data-aos="fade-up" data-aos-duration="700" data-aos-delay="220">
+                        <label class="form-field">Name
+                            <input id="register-name" type="text" required maxlength="40" placeholder="Your Name">
+                        </label>
+                        <label class="form-field">Email
+                            <input id="register-email" type="email" autocomplete="username" required placeholder="nama@email.com">
+                        </label>
+                        <label class="form-field">Password
+                            <input id="register-password" type="password" autocomplete="new-password" required minlength="6" placeholder="minimum 6 characters">
+                        </label>
+                        <button class="primary-button" type="submit">Create Account</button>
+                    </form>
+                    <div id="auth-message" class="auth-message" role="status" data-aos="fade-in" data-aos-duration="500"></div>
+                    <div class="account-tools" data-aos="fade-up" data-aos-duration="700" data-aos-delay="260">
+                        <h3>Upload or Backup Account</h3>
+                        <p class="account-note">Import the JSON file of your account that you have previously exported. This data is only stored in this browser.</p>
+                        <div class="tool-buttons">
+                            <button class="tool-button" onclick="exportAccount()" data-aos="zoom-in" data-aos-duration="600" data-aos-delay="300">Download Account</button>
+                            <button class="tool-button" onclick="document.getElementById('account-file').click()" data-aos="zoom-in" data-aos-duration="600" data-aos-delay="360">Upload Account</button>
+                            <input id="account-file" type="file" accept="application/json,.json" hidden onchange="importAccount(event)">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- ============================
+             QUESTION MANAGER SECTION
+        ============================= -->
+        <section id="manager" class="section">
+            <div class="question-manager">
+                <div class="manager-header" data-aos="fade-up" data-aos-duration="700">
+                    <div class="badge">QUESTION BANK</div>
+                    <h2>Add Questions from Website</h2>
+                    <p>Questions you add will appear in the Quiz and be saved in your account history.</p>
+                </div>
+                <div class="question-manager-grid">
+                    <div class="manager-card" data-aos="fade-right" data-aos-duration="700">
+                        <h3>Add New Question</h3>
+                        <p>Fill in the question, three answer options, then select the correct answer.</p>
+                        <form id="question-form" class="question-form" onsubmit="addQuestion(event)">
+                            <label class="form-field">Question
+                                <textarea id="new-question" required maxlength="180" placeholder="Example: She ___ happy."></textarea>
+                            </label>
+                            <label class="form-field">Option A
+                                <input id="option-a" type="text" required maxlength="60" placeholder="am">
+                            </label>
+                            <label class="form-field">Option B
+                                <input id="option-b" type="text" required maxlength="60" placeholder="is">
+                            </label>
+                            <label class="form-field">Option C
+                                <input id="option-c" type="text" required maxlength="60" placeholder="are">
+                            </label>
+                            <label class="form-field">Correct Answer
+                                <select id="correct-option" required>
+                                    <option value="">Select Answer</option>
+                                    <option value="a">Option A</option>
+                                    <option value="b">Option B</option>
+                                    <option value="c">Option C</option>
+                                </select>
+                            </label>
+                            <button class="primary-button" type="submit">Save Question</button>
+                        </form>
+                        <div id="question-message" class="auth-message" role="status"></div>
+                    </div>
+                    <div class="manager-card" data-aos="fade-left" data-aos-duration="700">
+                        <h3>Question History</h3>
+                        <p>List of questions you have added from this website.</p>
+                        <div id="question-history" class="question-list"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- ============================
+             CREATOR PROFILE SECTION
+        ============================= -->
+        <section id="creators" class="section">
+            <div class="creator-section">
+                <div class="manager-header" data-aos="fade-up" data-aos-duration="700">
+                    <div class="badge">TEAM PROFILE</div>
+                    <h2>5 People Behind This Website</h2>
+                    <p>Website ini dibuat berkat kolaborasi 5 orang yang bekerja bersama dalam konsep, desain, konten, dan pengembangan.</p>
+                </div>
+
+                <form id="creator-form" class="creator-form" onsubmit="addCreator(event)">
+                    <h3>Tambah Profil Anggota</h3>
+                    <div class="creator-fields">
+                        <label class="creator-field">
+                            Nama Lengkap
+                            <input id="creator-name" type="text" placeholder="Contoh: Budi Santoso" required maxlength="40">
+                        </label>
+                        <label class="creator-field">
+                            Posisi / Peran
+                            <input id="creator-role" type="text" placeholder="Contoh: UI Designer" required maxlength="35">
+                        </label>
+                        <label class="creator-field full-width">
+                            Deskripsi Singkat
+                            <textarea id="creator-description" placeholder="Tulis tugas atau kontribusi anggota..." required maxlength="180"></textarea>
+                        </label>
+                        <label class="creator-field full-width">
+                            Upload Foto
+                            <input id="creator-photo-file" type="file" accept="image/*">
+                        </label>
+                    </div>
+                    <div class="creator-actions">
+                        <button id="creator-submit-button" class="primary-button" type="submit">Tambah Anggota</button>
+                        <button type="button" class="secondary-button" onclick="resetCreatorForm()">Reset Form</button>
+                        <span id="creator-message" class="auth-message" role="status"></span>
+                    </div>
+                </form>
+
+                <div id="creator-grid" class="creator-grid"></div>
+            </div>
+        </section>
+        <!-- ============================
+             MATERIAL SECTION
+        ============================= -->
+        <section id="material" class="section">
+            <div class="material-container">
+                <div class="material-header" data-aos="fade-up" data-aos-duration="700">
+                    <div class="badge">
+                        BEGINNER
+                    </div>
+                    <h2>
+                        To Be
+                    </h2>
+                    <p>
+                        Know the usage of am, is, and are.
+                    </p>
+                </div>
+                <div class="material-card" data-aos="fade-up" data-aos-duration="700" data-aos-delay="100">
+                    <h3>
+                        What is To Be?
+                    </h3>
+                    <p>
+                        To be is used to connect the subject with information about the subject.
+                    </p>
+                </div>
+                <div class="material-card" data-aos="fade-up" data-aos-duration="700" data-aos-delay="180">
+                    <h3>
+                        Usage of To Be
+                    </h3>
+                    <table class="grammar-table">
+                        <thead>
+                            <tr>
+                                <th>Subject</th>
+                                <th>To Be</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>I</td>
+                                <td>am</td>
+                            </tr>
+                            <tr>
+                                <td>He</td>
+                                <td>is</td>
+                            </tr>
+                            <tr>
+                                <td>She</td>
+                                <td>is</td>
+                            </tr>
+                            <tr>
+                                <td>It</td>
+                                <td>is</td>
+                            </tr>
+                            <tr>
+                                <td>You</td>
+                                <td>are</td>
+                            </tr>
+                            <tr>
+                                <td>We</td>
+                                <td>are</td>
+                            </tr>
+                            <tr>
+                                <td>They</td>
+                                <td>are</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="material-card" data-aos="fade-up" data-aos-duration="700" data-aos-delay="260">
+                    <h3>
+                        Example Sentences
+                    </h3>
+                    <ul class="example-list">
+                        <li>
+                            I am a student.
+                        </li>
+                        <li>
+                            She is happy.
+                        </li>
+                        <li>
+                            They are students.
+                        </li>
+                        <li>
+                            We are friends.
+                        </li>
+                        <li>
+                            He is a teacher.
+                        </li>
+                    </ul>
+                </div>
+                <div class="material-card remember-box" data-aos="zoom-in" data-aos-duration="700" data-aos-delay="300">
+                    <h3>
+                        💡 Remember!
+                    </h3>
+                    <p>
+                        I → am
+                        <br>
+                        He / She / It → is
+                        <br>
+                        You / We / They → are
+                    </p>
+                </div>
+                <div class="material-action" data-aos="zoom-in" data-aos-duration="700" data-aos-delay="340">
+                    <button
+                        class="primary-button"
+                        onclick="startQuiz()">
+                        Start Quiz
+                    </button>
+                </div>
+            </div>
+        </section>
+        <!-- ============================
+             QUIZ SECTION
+        ============================= -->
+        <section id="quiz" class="section">
+            <div class="quiz-container">
+                <div class="quiz-top" data-aos="fade-down" data-aos-duration="600">
+                    <div class="quiz-title">
+                        Grammar Practice
+                    </div>
+                    <div
+                        class="question-number"
+                        id="question-number">
+                        Question 1 of 3
+                    </div>
+                </div>
+                <div class="progress-container">
+                    <div
+                        class="progress-bar"
+                        id="progress-bar">
+                    </div>
+                </div>
+                <div class="question-card" data-aos="zoom-in-left" data-aos-duration="800">
+                    <h2 id="question" data-aos="fade-up" data-aos-duration="600" data-aos-delay="80">
+                        She ___ a student.
+                    </h2>
+                    <div
+                        class="answer-options"
+                        id="answer-options">
+                    </div>
+                    <div
+                        id="feedback"
+                        class="feedback">
+                        <h3 id="feedback-title">
+                        </h3>
+                        <p id="feedback-text">
+                        </p>
+                    </div>
+                    <div class="next-container">
+                        <button
+                            id="next-button"
+                            class="primary-button next-button"
+                            onclick="nextQuestion()">
+                            Next Question
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- ============================
+             RESULT SECTION
+        ============================= -->
+        <section id="result" class="section">
+            <div class="result-container" data-aos="zoom-in" data-aos-duration="900">
+                <div class="result-icon" data-aos="zoom-in" data-aos-duration="700" data-aos-delay="100">
+                    🎉
+                </div>
+                <h2>
+                    Quiz Completed!
+                </h2>
+                <p id="result-message">
+                    You have completed the quiz.
+                </p>
+                <div class="score-box">
+                    <div class="score-item score-correct">
+                        <span id="correct-score">
+                            0
+                        </span>
+                        ✓ Correct
+                    </div>
+                    <div class="score-item score-wrong">
+                        <span id="wrong-score">
+                            0
+                        </span>
+                        ✕ Wrong
+                    </div>
+                </div>
+                <button
+                    class="primary-button"
+                    onclick="startQuiz()">
+                    Try Again
+                </button>
+                <button
+                    class="secondary-button"
+                    onclick="showSection('material')">
+                    Back to Material
+                </button>
+            </div>
+        </section>
+    </main>
+    <!-- ================================
+         FOOTER
+    ================================= -->
+    <footer>
+        <p>
+            Study Grammar • Basic English Learning
+        </p>
+    </footer>
+    <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+    <!-- ================================
+         JAVASCRIPT
+    ================================= -->
+    <script>
+        /* =================================
+           DATA SOAL
+        ================================= */
+        const questions = [
+            {
+                question: "She ___ a student.",
+                options: ["am", "is", "are"],
+                answer: "is"
+            },
+            {
+                question: "They ___ my friends.",
+                options: ["am", "is", "are"],
+                answer: "are"
+            },
+            {
+                question: "I ___ happy.",
+                options: ["am", "is", "are"],
+                answer: "am"
+            },
+            {
+                question: "He ___ a teacher.",
+                options: ["am", "is", "are"],
+                answer: "is"
+            },
+            {
+                question: "We ___ students.",
+                options: ["am", "is", "are"],
+                answer: "are"
+            },
+            {
+                question: "My mother ___ a chef in a famous restaurant.",
+                options: ["am", "is", "are"],
+                answer: "is"
+            },
+            {
+                question: "I ___ very excited about the trip tomorrow.",
+                options: ["am", "is", "are"],
+                answer: "am"
+            },
+            {
+                question: "The cats ___ sleeping on the sofa.",
+                options: ["am", "is", "are"],
+                answer: "are"
+            },
+            {
+                question: "You ___ my best friend.",
+                options: ["am", "is", "are"],
+                answer: "are"
+            },
+            {
+                question: "Jakarta ___ the capital city of Indonesia.",
+                options: ["am", "is", "are"],
+                answer: "is"
+            }
+            
+           
+        ];
+        /* =================================
+           VARIABLE QUIZ
+        ================================= */
+        let currentQuestion = 0;
+        let correctAnswers = 0;
+        let wrongAnswers = 0;
+        let hasAnswered = false;
+        const accountsKey = "belajarGrammarAccounts";
+        const sessionKey = "belajarGrammarSession";
+        const customQuestionsKey = "belajarGrammarCustomQuestions";
+        const creatorsKey = "belajarGrammarCreators";
+        const defaultCreators = [
+            {
+                name: "Jihan Sina Nihan",
+                role: "UI Designer",
+                description: "Mengatur tampilan visual agar website terlihat modern, menarik, dan nyaman untuk pengguna.",
+                photo: ""
+            },
+            {
+                name: "Rico Akbar Farisi",
+                role: "Frontend",
+                description: "Membangun struktur tampilan dan interaksi website agar lebih rapi, responsif, dan mudah digunakan.",
+                photo: ""
+            },
+            {
+                name: "Dinda Khoirunisa",
+                role: "Content Writer",
+                description: "Menulis materi edukasi dan konten website agar lebih mudah dipahami oleh pengguna baru.",
+                photo: ""
+            },
+            {
+                name: "Naurah Chalissa Putri",
+                role: "Logic & Quiz",
+                description: "Menyusun soal latihan dan logika quiz agar proses belajar menjadi lebih interaktif dan bermanfaat.",
+                photo: ""
+            },
+            {
+                name: "Albarr Muhammad",
+                role: "Project Lead",
+                description: "Mengawasi dan mengoordinasikan seluruh proses agar website selesai dengan konsep yang terarah.",
+                photo: ""
+            }
+        ];
+        const demoAccount = {
+            name: "Demo Belajar",
+            email: "demo@grammar.id",
+            password: "belajar123"
+        };
+        let currentUser = null;
+        let quizQuestions = questions.slice();
+        let editingCreatorId = null;
+
+        function getCustomQuestions() {
+            if (!currentUser) return [];
+            try {
+                const allQuestions = JSON.parse(localStorage.getItem(customQuestionsKey)) || {};
+                return Array.isArray(allQuestions[currentUser.email]) ? allQuestions[currentUser.email] : [];
+            } catch (error) {
+                return [];
+            }
+        }
+
+        function saveCustomQuestions(customQuestions) {
+            const allQuestions = JSON.parse(localStorage.getItem(customQuestionsKey) || "{}");
+            allQuestions[currentUser.email] = customQuestions;
+            localStorage.setItem(customQuestionsKey, JSON.stringify(allQuestions));
+        }
+
+        function setQuestionMessage(message, type) {
+            const element = document.getElementById("question-message");
+            element.textContent = message;
+            element.className = "auth-message " + (type || "");
+        }
+
+        function getCreators() {
+            try {
+                const saved = JSON.parse(localStorage.getItem(creatorsKey));
+                if (Array.isArray(saved) && saved.length) {
+                    return saved;
+                }
+            } catch (error) {
+                return defaultCreators.slice();
+            }
+            return defaultCreators.slice();
+        }
+
+        function saveCreators(creators) {
+            localStorage.setItem(creatorsKey, JSON.stringify(creators));
+        }
+
+        function getInitials(name) {
+            return name
+                .split(" ")
+                .filter(Boolean)
+                .slice(0, 2)
+                .map(function(part) { return part.charAt(0).toUpperCase(); })
+                .join("") || "A";
+        }
+
+        function resetCreatorForm() {
+            editingCreatorId = null;
+            const form = document.getElementById("creator-form");
+            if (form) form.reset();
+            const submitButton = document.getElementById("creator-submit-button");
+            if (submitButton) submitButton.textContent = "Tambah Anggota";
+            const message = document.getElementById("creator-message");
+            if (message) {
+                message.textContent = "";
+                message.className = "auth-message";
+            }
+        }
+
+        function renderCreators() {
+            const container = document.getElementById("creator-grid");
+            if (!container) return;
+            const creators = getCreators();
+            container.innerHTML = creators.map(function(person, index) {
+                const initials = person.photo ? "" : getInitials(person.name || "Unknown");
+                return `
+                    <div class="creator-card" data-aos="zoom-in" data-aos-duration="700" data-aos-delay="${80 + index * 60}">
+                        <div class="creator-avatar">
+                            ${person.photo ? `<img src="${person.photo}" alt="${person.name}" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">` : `<span>${initials}</span>`}
+                        </div>
+                        <h3>${person.name || "Nama"}</h3>
+                        <div class="creator-role">${person.role || "Anggota"}</div>
+                        <p>${person.description || "Belum ada deskripsi."}</p>
+                        <div class="creator-card-actions">
+                            <button type="button" class="creator-action-btn" onclick="editCreator(${person.id || index})">Edit</button>
+                            <button type="button" class="creator-action-btn delete" onclick="deleteCreator(${person.id || index})">Delete</button>
+                        </div>
+                    </div>
+                `;
+            }).join("");
+        }
+
+        function editCreator(id) {
+            const creators = getCreators();
+            const person = creators.find(function(item) { return (item.id || creators.indexOf(item)) === id; });
+            if (!person) return;
+            editingCreatorId = id;
+            document.getElementById("creator-name").value = person.name || "";
+            document.getElementById("creator-role").value = person.role || "";
+            document.getElementById("creator-description").value = person.description || "";
+            document.getElementById("creator-photo-file").value = "";
+            const submitButton = document.getElementById("creator-submit-button");
+            if (submitButton) submitButton.textContent = "Update Anggota";
+            const message = document.getElementById("creator-message");
+            if (message) {
+                message.textContent = "Mode edit aktif. Ubah data lalu simpan.";
+                message.className = "auth-message success";
+            }
+            document.getElementById("creator-name").focus();
+        }
+
+        function deleteCreator(id) {
+            const creators = getCreators().filter(function(item) { return (item.id || getCreators().indexOf(item)) !== id; });
+            saveCreators(creators);
+            renderCreators();
+            if (editingCreatorId === id) resetCreatorForm();
+            const message = document.getElementById("creator-message");
+            if (message) {
+                message.textContent = "Profil anggota berhasil dihapus.";
+                message.className = "auth-message success";
+            }
+        }
+
+        function addCreator(event) {
+            event.preventDefault();
+            const name = document.getElementById("creator-name").value.trim();
+            const role = document.getElementById("creator-role").value.trim();
+            const description = document.getElementById("creator-description").value.trim();
+            const fileInput = document.getElementById("creator-photo-file");
+            const message = document.getElementById("creator-message");
+
+            const finalize = function(photoValue) {
+                const creators = getCreators();
+                if (editingCreatorId !== null) {
+                    const targetIndex = creators.findIndex(function(item) { return (item.id || creators.indexOf(item)) === editingCreatorId; });
+                    if (targetIndex >= 0) {
+                        creators[targetIndex] = {
+                            ...creators[targetIndex],
+                            name: name,
+                            role: role,
+                            description: description,
+                            photo: photoValue || creators[targetIndex].photo || ""
+                        };
+                    }
+                    saveCreators(creators);
+                    renderCreators();
+                    resetCreatorForm();
+                    message.textContent = "Profil anggota berhasil diperbarui.";
+                    message.className = "auth-message success";
+                    return;
+                }
+
+                creators.push({
+                    id: Date.now(),
+                    name: name,
+                    role: role,
+                    description: description,
+                    photo: photoValue || ""
+                });
+                saveCreators(creators);
+                renderCreators();
+                document.getElementById("creator-form").reset();
+                message.textContent = "Profil anggota berhasil ditambahkan.";
+                message.className = "auth-message success";
+            };
+
+            if (fileInput && fileInput.files && fileInput.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function() {
+                    finalize(reader.result);
+                };
+                reader.readAsDataURL(fileInput.files[0]);
+                return;
+            }
+
+            finalize("");
+        }
+
+        function addQuestion(event) {
+            event.preventDefault();
+            if (!currentUser) {
+                setQuestionMessage("Please login first.", "error");
+                return;
+            }
+            const options = [
+                document.getElementById("option-a").value.trim(),
+                document.getElementById("option-b").value.trim(),
+                document.getElementById("option-c").value.trim()
+            ];
+            const correctIndex = { a: 0, b: 1, c: 2 }[document.getElementById("correct-option").value];
+            const customQuestions = getCustomQuestions();
+            customQuestions.unshift({
+                id: Date.now(),
+                question: document.getElementById("new-question").value.trim(),
+                options: options,
+                answer: options[correctIndex],
+                createdAt: new Date().toLocaleString("id-ID")
+            });
+            saveCustomQuestions(customQuestions);
+            document.getElementById("question-form").reset();
+            renderQuestionHistory();
+            setQuestionMessage("Question saved successfully and will appear in the quiz.", "success");
+        }
+
+        function renderQuestionHistory() {
+            const container = document.getElementById("question-history");
+            if (!container) return;
+            container.innerHTML = "";
+            if (!currentUser) {
+                container.innerHTML = '<p class="empty-history">Please login to view question history.</p>';
+                return;
+            }
+            const customQuestions = getCustomQuestions();
+            if (!customQuestions.length) {
+                container.innerHTML = '<p class="empty-history">No additional questions available.</p>';
+                return;
+            }
+            customQuestions.forEach(function(item) {
+                const historyItem = document.createElement("div");
+                historyItem.className = "question-history-item";
+                const questionText = document.createElement("strong");
+                questionText.textContent = item.question;
+                const details = document.createElement("small");
+                details.textContent = "Options: " + item.options.join(" / ") + " | Answer: " + item.answer + " | Added: " + item.createdAt;
+                const deleteButton = document.createElement("button");
+                deleteButton.className = "delete-question";
+                deleteButton.textContent = "Delete Question";
+                deleteButton.onclick = function() { deleteQuestion(item.id); };
+                historyItem.appendChild(questionText);
+                historyItem.appendChild(details);
+                historyItem.appendChild(deleteButton);
+                container.appendChild(historyItem);
+            });
+        }
+
+	function deleteQuestion(questionId) {
+            const remaining = getCustomQuestions().filter(function(item) { return item.id !== questionId; });
+            saveCustomQuestions(remaining);
+            renderQuestionHistory();
+            setQuestionMessage("Question deleted successfully.", "success");
+        }
+
+        function getAccounts() {
+            try {
+                return JSON.parse(localStorage.getItem(accountsKey)) || [];
+            } catch (error) {
+                return [];
+            }
+        }
+
+        function saveAccounts(accounts) {
+            localStorage.setItem(accountsKey, JSON.stringify(accounts));
+        }
+
+        function setAuthMessage(message, type) {
+            const element = document.getElementById("auth-message");
+            element.textContent = message;
+            element.className = "auth-message " + (type || "");
+        }
+
+        function updateAuthStatus() {
+            const status = document.getElementById("account-status");
+            const userLabel = document.getElementById("logged-user");
+            if (currentUser) {
+                status.classList.add("show");
+                userLabel.textContent = currentUser.name;
+            } else {
+                status.classList.remove("show");
+                userLabel.textContent = "";
+            }
+        }
+
+        function switchAuth(mode) {
+            const isLogin = mode === "login";
+            document.getElementById("login-form").classList.toggle("active", isLogin);
+            document.getElementById("register-form").classList.toggle("active", !isLogin);
+            document.getElementById("login-tab").classList.toggle("active", isLogin);
+            document.getElementById("register-tab").classList.toggle("active", !isLogin);
+            document.getElementById("account-title").textContent = isLogin ? "Login to Your Account" : "Create New Account";
+            document.getElementById("account-subtitle").textContent = isLogin ? "Save your learning progress on this device." : "Sign up for free to start learning.";
+            setAuthMessage("");
+        }
+
+        function register(event) {
+            event.preventDefault();
+            const name = document.getElementById("register-name").value.trim();
+            const email = document.getElementById("register-email").value.trim().toLowerCase();
+            const password = document.getElementById("register-password").value;
+            const accounts = getAccounts();
+            if (accounts.some(function(account) { return account.email === email; })) {
+                setAuthMessage("Email is already registered. Please login.", "error");
+                return;
+            }
+            accounts.push({ name: name, email: email, password: password });
+            saveAccounts(accounts);
+            currentUser = { name: name, email: email };
+            localStorage.setItem(sessionKey, JSON.stringify(currentUser));
+            updateAuthStatus();
+            renderQuestionHistory();
+            setAuthMessage("Account created successfully and you are now logged in.", "success");
+            event.target.reset();
+            showSection("home");
+        }
+
+        function login(event) {
+            event.preventDefault();
+            const email = document.getElementById("login-email").value.trim().toLowerCase();
+            const password = document.getElementById("login-password").value;
+            const account = getAccounts().find(function(item) {
+                return item.email === email && item.password === password;
+            });
+            if (!account) {
+                setAuthMessage("Email or password does not match.", "error");
+                return;
+            }
+            currentUser = { name: account.name, email: account.email };
+            localStorage.setItem(sessionKey, JSON.stringify(currentUser));
+            updateAuthStatus();
+            renderQuestionHistory();
+            setAuthMessage("Login successful. Happy learning, " + account.name + "!", "success");
+            event.target.reset();
+            showSection("home");
+        }
+
+        function logout() {
+            currentUser = null;
+            localStorage.removeItem(sessionKey);
+            updateAuthStatus();
+            renderQuestionHistory();
+            switchAuth("login");
+            showSection("account");
+            setAuthMessage("You have been logged out.", "success");
+        }
+
+        function exportAccount() {
+            const accounts = getAccounts();
+            if (!accounts.length) {
+                setAuthMessage("No accounts available for download.", "error");
+                return;
+            }
+            const blob = new Blob([JSON.stringify(accounts, null, 2)], { type: "application/json" });
+            const link = document.createElement("a");
+            link.href = URL.createObjectURL(blob);
+            link.download = "akun-belajar-grammar.json";
+            link.click();
+            URL.revokeObjectURL(link.href);
+            setAuthMessage("File accounts successfully downloaded.", "success");
+        }
+
+        function importAccount(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = function() {
+                try {
+                    const imported = JSON.parse(reader.result);
+                    const accounts = Array.isArray(imported) ? imported : imported.accounts;
+                    if (!Array.isArray(accounts) || accounts.some(function(account) {
+                        return !account.name || !account.email || !account.password;
+                    })) throw new Error("Format not valid");
+                    const merged = getAccounts();
+                    accounts.forEach(function(account) {
+                        const email = account.email.trim().toLowerCase();
+                        const existing = merged.findIndex(function(item) { return item.email === email; });
+                        const normalized = { name: account.name.trim(), email: email, password: account.password };
+                        if (existing >= 0) merged[existing] = normalized;
+                        else merged.push(normalized);
+                    });
+                    saveAccounts(merged);
+                    setAuthMessage(accounts.length + " accounts successfully uploaded.", "success");
+                } catch (error) {
+                    setAuthMessage("File not valid. Please upload a valid JSON file.", "error");
+                }
+                event.target.value = "";
+            };
+            reader.readAsText(file);
+        }
+        /* =================================
+           FUNGSI MENAMPILKAN SECTION
+        ================================= */
+        function showSection(sectionName) {
+            const protectedSections = ["home", "material", "quiz", "result", "manager"];
+            if (!currentUser && protectedSections.includes(sectionName)) {
+                sectionName = "account";
+            }
+
+            // Ambil semua section
+            const sections =
+                document.querySelectorAll(".section");
+            // Sembunyikan semua section
+            sections.forEach(function(section) {
+                section.classList.remove("active");
+            });
+            // Tampilkan section yang dipilih
+            const selectedSection =
+                document.getElementById(sectionName);
+            if (selectedSection) {
+                selectedSection.classList.add("active");
+                if (window.AOS) {
+                    setTimeout(function() {
+                        AOS.refreshHard();
+                    }, 50);
+                }
+            }
+            // Mengatur tombol navigasi aktif
+            const navButtons =
+                document.querySelectorAll(".nav-button");
+            navButtons.forEach(function(button) {
+                button.classList.remove("active");
+            });
+            if (sectionName === "home") {
+                document
+                    .getElementById("nav-home")
+                    .classList.add("active");
+            }
+            if (sectionName === "material") {
+                document
+                    .getElementById("nav-material")
+                    .classList.add("active");
+            }
+            if (sectionName === "quiz") {
+                document
+                    .getElementById("nav-quiz")
+                    .classList.add("active");
+            }
+            if (sectionName === "manager") {
+                document
+                    .getElementById("nav-manager")
+                    .classList.add("active");
+                renderQuestionHistory();
+            }
+            if (sectionName === "creators") {
+                document
+                    .getElementById("nav-creators")
+                    .classList.add("active");
+            }
+            // Kembali ke bagian atas halaman
+            window.scrollTo({
+                top: 0,
+                behavior: "smooth"
+            });
+        }
+        /* =================================
+           MULAI QUIZ
+        ================================= */
+        function startQuiz() {
+            // Reset quiz
+            currentQuestion = 0;
+            correctAnswers = 0;
+            wrongAnswers = 0;
+            hasAnswered = false;
+            quizQuestions = questions.concat(getCustomQuestions());
+            // Tampilkan halaman quiz
+            showSection("quiz");
+            // Tampilkan soal pertama
+            displayQuestion();
+        }
+        /* =================================
+           MENAMPILKAN SOAL
+        ================================= */
+        function displayQuestion() {
+            const questionData =
+                quizQuestions[currentQuestion];
+            // Reset status jawaban
+            hasAnswered = false;
+            // Menampilkan nomor soal
+            document.getElementById("question-number")
+                .textContent =
+                "Soal " +
+                (currentQuestion + 1) +
+                " dari " +
+                quizQuestions.length;
+            // Mengatur progress bar
+            const progress =
+                ((currentQuestion + 1) /
+                quizQuestions.length) * 100;
+            document.getElementById("progress-bar")
+                .style.width =
+                progress + "%";
+            // Menampilkan pertanyaan
+            document.getElementById("question")
+                .textContent =
+                questionData.question;
+            // Mengambil tempat pilihan jawaban
+            const optionsContainer =
+                document.getElementById("answer-options");
+            // Kosongkan pilihan sebelumnya
+            optionsContainer.innerHTML = "";
+            // Membuat tombol pilihan
+            questionData.options.forEach(function(option, index) {
+                const button =
+                    document.createElement("button");
+                button.className =
+                    "answer-button";
+                button.setAttribute("data-aos", "zoom-in");
+                button.setAttribute("data-aos-duration", "500");
+                button.setAttribute("data-aos-delay", String(80 + index * 80));
+                button.textContent =
+                    option;
+                button.onclick =
+                    function() {
+                        checkAnswer(
+                            option,
+                            button
+                        );
+                    };
+                optionsContainer.appendChild(button);
+                if (window.AOS) {
+                    AOS.refreshHard();
+                }
+            });
+            // Reset feedback
+            const feedback =
+                document.getElementById("feedback");
+            feedback.className = "feedback";
+            document.getElementById("feedback-title")
+                .textContent = "";
+            document.getElementById("feedback-text")
+                .textContent = "";
+            // Sembunyikan tombol berikutnya
+            document.getElementById("next-button")
+                .classList.remove("show");
+        }
+        /* =================================
+           MEMERIKSA JAWABAN
+        ================================= */
+        function checkAnswer(selectedAnswer, selectedButton) {
+            // Jika sudah menjawab,
+            // jangan izinkan memilih lagi
+            if (hasAnswered) {
+                return;
+            }
+            hasAnswered = true;
+            const correctAnswer =
+                quizQuestions[currentQuestion].answer;
+            // Ambil semua tombol jawaban
+            const answerButtons =
+                document.querySelectorAll(
+                    ".answer-button"
+                );
+            // Nonaktifkan semua tombol
+            answerButtons.forEach(function(button) {
+                button.disabled = true;
+            });
+            const feedback =
+                document.getElementById("feedback");
+            const feedbackTitle =
+                document.getElementById(
+                    "feedback-title"
+                );
+            const feedbackText =
+                document.getElementById(
+                    "feedback-text"
+                );
+            /* =============================
+               JIKA JAWABAN BENAR
+            ============================== */
+            if (selectedAnswer === correctAnswer) {
+                correctAnswers++;
+                selectedButton.classList.add(
+                    "correct"
+                );
+                feedback.className =
+                    "feedback show correct-feedback";
+                feedbackTitle.textContent =
+                    "✓ Correct!";
+                feedbackText.textContent =
+                    "Your answer is correct.";
+            }
+            /* =============================
+               JIKA JAWABAN SALAH
+            ============================== */
+            else {
+                wrongAnswers++;
+                selectedButton.classList.add(
+                    "wrong"
+                );
+                // Tandai jawaban yang benar
+                answerButtons.forEach(
+                    function(button) {
+                        if (
+                            button.textContent ===
+                            correctAnswer
+                        ) {
+                            button.classList.add(
+                                "correct"
+                            );
+                        }
+                    }
+                );
+                feedback.className =
+                    "feedback show wrong-feedback";
+                feedbackTitle.textContent =
+                    "✕ Incorrect";
+                feedbackText.textContent =
+                    "Correct answer: " +
+                    correctAnswer;
+            }
+            // Tampilkan tombol berikutnya
+            document.getElementById("next-button")
+                .classList.add("show");
+        }
+        /* =================================
+           SOAL BERIKUTNYA
+        ================================= */
+        function nextQuestion() {
+            currentQuestion++;
+            // Jika masih ada soal
+            if (currentQuestion < quizQuestions.length) {
+                displayQuestion();
+            }
+            // Jika semua soal selesai
+            else {
+                showResult();
+            }
+        }
+        /* =================================
+           MENAMPILKAN HASIL
+        ================================= */
+        function showResult() {
+            // Tampilkan halaman result
+            showSection("result");
+            // Tampilkan jumlah benar
+            document.getElementById("correct-score")
+                .textContent =
+                correctAnswers;
+            // Tampilkan jumlah salah
+            document.getElementById("wrong-score")
+                .textContent =
+                wrongAnswers;
+            // Pesan berdasarkan hasil
+            const resultMessage =
+                document.getElementById(
+                    "result-message"
+                );
+            if (correctAnswers === quizQuestions.length) {
+                resultMessage.textContent =
+                    "Perfect! You answered all questions correctly.";
+            }
+            else if (correctAnswers === 2) {
+                resultMessage.textContent =
+                    "Good job! You have understood the basics of To Be.";
+            }
+            else if (correctAnswers === 1) {
+                resultMessage.textContent =
+                    "Try reviewing the To Be material.";
+            }
+            else {
+                resultMessage.textContent =
+                    "Don't give up. Review the material and try again.";
+            }
+        }
+        /* =================================
+           SAAT WEBSITE DIBUKA
+        ================================= */
+        function revealSectionContent(sectionId) {
+            const section = document.getElementById(sectionId);
+            if (!section) return;
+
+            const targets = section.querySelectorAll(
+                ".hero, .hero-illustration, .section-title, .section-description, .lesson-card, .material-card, .account-card, .question-card, .result-container"
+            );
+
+            targets.forEach(function(target, index) {
+                target.classList.remove("visible");
+                target.classList.add("reveal");
+                setTimeout(function() {
+                    target.classList.add("visible");
+                }, 80 + index * 90);
+            });
+        }
+
+        document.addEventListener(
+            "DOMContentLoaded",
+            function() {
+                AOS.init({
+                    duration: 800,
+                    once: true,
+                    offset: 30,
+                    easing: "ease-out-cubic"
+                });
+
+                const accounts = getAccounts();
+                if (!accounts.some(function(account) { return account.email === demoAccount.email; })) {
+                    accounts.push(demoAccount);
+                    saveAccounts(accounts);
+                }
+                try {
+                    currentUser = JSON.parse(localStorage.getItem(sessionKey));
+                } catch (error) {
+                    currentUser = null;
+                }
+                updateAuthStatus();
+                renderQuestionHistory();
+                if (currentUser) {
+                    showSection("home");
+                } else {
+                    showSection("creators");
+                }
+                revealSectionContent("home");
+                revealSectionContent("account");
+                renderCreators();
+                revealSectionContent("manager");
+                revealSectionContent("creators");
+                revealSectionContent("material");
+                revealSectionContent("quiz");
+                revealSectionContent("result");
+            }
+        );
+    </script>
+</body>
+</html>
